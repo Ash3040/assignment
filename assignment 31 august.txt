@@ -1,0 +1,59 @@
+class main{
+public static void main(String args[])
+{
+int  n,r,rev=0;
+System.out.println("enter a interger");
+Scanner in=new scanner (System.in);
+n=in.nextInt();
+while(n!=0)
+{
+r=n%10;
+rev=rev*10+r;
+n=n/10;
+}
+System.out.println("reverse no is:"+rev);
+}
+}
+
+
+armstrong no:
+class main{
+public static void main(String args[])
+{
+int n,new,num=0,rem;
+System.out.println("enter a interger");
+Scanner in=new scanner (System.in);
+n=in.nextInt();
+new=n;
+while(new!=0)
+{
+rem=new%10;
+num=num+rem*rem*rem;
+new=new/10;
+}
+if(num==n){
+System.out.println("number is armstrong ");
+}
+else
+{
+System.out.println("not an armstrong number");
+}
+third highest:
+public class Thirdhigh {
+   public static void main(String args[]){
+   int temp, size;
+   int array[] = {10, 20, 25, 63, 96, 57};
+   size = array.length;
+   
+   for(int i = 0; i<size; i++ ){
+      for(int j = i+1; j<size; j++){
+         if(array[i]>array[j]){
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+         }
+      }
+   }
+   System.out.println("Third largest number is:: "+array[size-3]);
+   }
+}
