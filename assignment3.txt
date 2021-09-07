@@ -8,7 +8,7 @@ Q.1 Identify Entities and sub entities ,their attributes and methods in Student 
            :-setstudent_id,setstudent_college,setstudent_name,setstudent_mob_no,setstudent_username,setstudent_password,
 ------------------------------------------------------------------------FEES-ENTITY--------------------------------------------------------------------------
 
-2>ENTITY   :-FESS
+2>ENTITY   :-FEES
 
   ATTRIBUTE:-Fees_course_id,Fees_amount,Fees_total,Fees_payment,Fees_type,Fees_Student_id
 
