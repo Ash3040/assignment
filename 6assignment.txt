@@ -92,7 +92,7 @@ import java.io.*;
 public class Simple{
  	public static void main(String[] args) throws IOException{
 	StreamTokenizer streamTokenizer = new StreamTokenizer(
-        new StringReader("1,madhav Building,11 janpath,delhi 451601"));
+        new StringReader("12,RutherFord Building,Lake Street,Chichago-29"));
     	
 	int word=0,number=0;
     	
