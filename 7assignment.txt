@@ -1,0 +1,28 @@
+1)public class program {
+public static void main(String[] args) {
+	   String st1 = "Java is Object Oriented. Java is Programming Language.";
+	   String st2 = str1.replace("Java","C++");
+	   System.out.println(st2);
+	   }
+           }
+2)
+
+import java.io.*;
+public class Simple{
+ 	public static void main(String[] args) throws IOException{
+	StreamTokenizer streamTokenizer = new StreamTokenizer(
+        new StringReader("12,RutherFord Building,Lake Street,Chichago-29"));
+    	
+	int word=0,number=0;
+    	
+	while(streamTokenizer.nextToken() != StreamTokenizer.TT_EOF){
+        	if(streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
+            		word++;
+        	} 
+        	if(streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
+            		number++;
+        	}
+    	}
+	System.out.println("Word = "+word+" & Number = "+number);  
+	}
+} 
