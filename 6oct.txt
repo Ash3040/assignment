@@ -1,0 +1,275 @@
+1.
+package com.multithreading;
+
+public class Candidate implements Runnable {
+
+	private String candidateName;
+	private Interview interview;
+
+	public String getCandidateName() {
+		return candidateName;
+	}
+
+	public void setCandidateName(String candidateName) {
+		this.candidateName = candidateName;
+	}
+
+	public Interview getInterview() {
+		return interview;
+	}
+
+	public void setInterview(Interview interview) {
+		this.interview = interview;
+	}
+
+	public Candidate(String candidateName, Interview interview) {
+		super();
+		this.candidateName = candidateName;
+		this.interview = interview;
+	}
+
+	@Override
+	public void run() {
+		System.out.println(candidateName + " is waiting in the queue.");
+		synchronized (interview) {
+			System.out.println(candidateName + " entered into the room.");
+			System.out.println(candidateName + " interview is going on.");
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(candidateName + " has done with their interview.");
+		}
+
+	}
+
+}
+---------------------------------------------------------------------------------------------------
+public class Interview {
+	private String interviewRound;
+	private String interviewPlace;
+	private String interviewBatch;
+	
+	public String getInterviewRound() {
+		return interviewRound;
+	}
+
+	public void setInterviewRound(String interviewRound) {
+		this.interviewRound = interviewRound;
+	}
+
+	public String getInterviewPlace() {
+		return interviewPlace;
+	}
+
+	public void setInterviewPlace(String interviewPlace) {
+		this.interviewPlace = interviewPlace;
+	}
+
+	public String getInterviewBatch() {
+		return interviewBatch;
+	}
+
+	public void setInterviewBatch(String interviewBatch) {
+		this.interviewBatch = interviewBatch;
+	}
+
+	public Interview(String interviewName, String interviewPlace, String interviewBatch) {
+		super();
+		this.interviewRound = interviewName;
+		this.interviewPlace = interviewPlace;
+		this.interviewBatch = interviewBatch;
+	}
+}
+-----------------------------------------------------------------------------------------------------------------
+import java.util.concurrent.locks.Lock;
+
+public class CandidateLock implements Runnable {
+
+	private String candiateName;
+	private InterviewLock interviewLock;
+	Lock lock;
+
+	public CandidateLock(String candiateName, InterviewLock interviewLock, Lock lock) {
+		super();
+		this.candiateName = candiateName;
+		this.interviewLock = interviewLock;
+		this.lock = lock;
+	}
+
+	@Override
+	public void run() {
+		System.out.println(candiateName + " is waiting in the queue");
+		synchronized (interviewLock) {
+			lock.lock();
+			interviewLock.giveInterview(candiateName);
+			lock.unlock();
+		}
+	}
+
+}
+----------------------------------------------------------------------------------------------------------
+package com.multithreading;
+
+public class InterviewLock {
+	private String interviewRound;
+	private String interviewPlace;
+	private String interviewBatch;
+	
+	public String getInterviewRound() {
+		return interviewRound;
+	}
+
+	public void setInterviewRound(String interviewRound) {
+		this.interviewRound = interviewRound;
+	}
+
+	public String getInterviewPlace() {
+		return interviewPlace;
+	}
+
+	public void setInterviewPlace(String interviewPlace) {
+		this.interviewPlace = interviewPlace;
+	}
+
+	public String getInterviewBatch() {
+		return interviewBatch;
+	}
+
+	public void setInterviewBatch(String interviewBatch) {
+		this.interviewBatch = interviewBatch;
+	}
+
+	public InterviewLock(String interviewRound, String interviewPlace, String interviewBatch) {
+		super();
+		this.interviewRound = interviewRound;
+		this.interviewPlace = interviewPlace;
+		this.interviewBatch = interviewBatch;
+	}
+
+	public void giveInterview(String candidateName)
+	{
+			synchronized(candidateName) {
+				System.out.println(candidateName + " entered into the room.");
+				System.out.println(candidateName + " interview is going on.");
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(candidateName + " has done with their interview.");
+	}
+	}
+}
+------------------------------------------------------------------------------------------------------------
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class InterviewProcess {
+	public static void main(String[] args) {
+		InterviewLock interviewLock = new InterviewLock("Technical Interview", "bhopal", "CSE/IT-20");
+		Lock lock = new ReentrantLock(true);
+
+		synchronized (interviewLock) {
+
+			Thread candidate1 = new Thread(new CandidateLock("Rohit", interviewLock, lock));
+			Thread candidate2 = new Thread(new CandidateLock("Priyansh", interviewLock, lock));
+			Thread candidate3 = new Thread(new CandidateLock("kajal", interviewLock, lock));
+			Thread candidate4 = new Thread(new CandidateLock("ramu", interviewLock, lock));
+			Thread candidate5 = new Thread(new CandidateLock("Anmol", interviewLock, lock));
+			Thread candidate6 = new Thread(new CandidateLock("Jeet", interviewLock, lock));
+			Thread candidate7 = new Thread(new CandidateLock("Raghav", interviewLock, lock));
+			Thread candidate8 = new Thread(new CandidateLock("Rajiv", interviewLock, lock));
+			Thread candidate9 = new Thread(new CandidateLock("Sonali", interviewLock, lock));
+			Thread candidate10 = new Thread(new CandidateLock("Yash", interviewLock, lock));
+
+			candidate1.start();
+			candidate2.start();
+			candidate3.start();
+			candidate4.start();
+			candidate5.start();
+			candidate6.start();
+			candidate7.start();
+			candidate8.start();
+			candidate9.start();
+			candidate10.start();
+
+		}
+	}
+}
+2 sort service 
+package Assignment_6_Oct;
+
+import java.util.Arrays;
+import java.util.concurrent.Callable;
+
+public class SortService implements Callable<Integer[]> {
+
+	private Integer arr[];
+	
+	public SortService(Integer intArray[]) 
+	{
+		this.arr = intArray;
+	}
+	
+	@Override
+	public Integer[] call() throws Exception {
+		System.out.println("Sorting Thread :"+Thread.currentThread());
+		Arrays.sort(arr);
+		return arr;
+	}
+
+}
+
+thread based sorting 
+package Assignment_6_Oct;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+public class ThreadBasedSorting {
+	public static void main(String[] args) {
+		final int nThreads=3;
+		Integer []arr1 = new Integer[] {20,12};
+		Integer []arr2 = new Integer[] {20,10,33,76,4,5,22,16};
+		Integer []arr3 = new Integer[] {56,76,33,234,21,3,21,34,221,3,2,4,64};
+		Integer []arr4 = new Integer[] {12,34,65,33,112,32,11,2};
+
+		Integer[][] jaggedArr = new Integer[][] {arr1,arr2,arr3,arr4};
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+		
+		Set<Future<Integer[]>> futureSet = new LinkedHashSet<>();
+		for (int i = 0; i < 4; i++) {
+			Future<Integer[]> future = executorService.submit(new SortService(jaggedArr[i]));
+			futureSet.add(future);
+		}
+		try {
+			futureSet.forEach(x->{
+				try 
+				{
+					Integer[] integers = x.get();
+					System.out.println("\nSorted array : "+ Arrays.asList(integers));
+				} catch (ExecutionException | InterruptedException e) {
+					e.printStackTrace();
+				}
+			});
+			executorService.awaitTermination(10, TimeUnit.SECONDS);
+			executorService.shutdown();
+			if(executorService.isShutdown()) {
+				System.out.println(" \n__________ Task Complted __________ ");
+			}
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+	}
+}
